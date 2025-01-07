@@ -1,29 +1,20 @@
 const messages = [
     "YOU JUST GOT HACKED",
-    "(just kidding, but you could have been, keep a look out!)"
+    "(just kidding, i promise)"
 ];
 
-document.addEventListener('DOMContentLoaded', () => {
-    const messageElement = document.getElementById('message');
+let currentIndex = 0;
+const messageElement = document.getElementById('message');
+
+function updateMessage() {
+    messageElement.classList.remove('visible');
     
-    if (!messageElement) {
-        console.error('Message element not found!');
-        return;
-    }
+    setTimeout(() => {
+        messageElement.textContent = messages[currentIndex];
+        messageElement.classList.add('visible');
+        currentIndex = (currentIndex + 1) % messages.length;
+    }, 500);
+}
 
-    let currentIndex = 0;
-    messageElement.style.transition = 'opacity 1s ease-in-out';
-
-    function switchMessage() {
-        messageElement.style.opacity = 0;
-        
-        setTimeout(() => {
-            currentIndex = (currentIndex + 1) % messages.length;
-            messageElement.textContent = messages[currentIndex];
-            messageElement.style.opacity = 1;
-        }, 1000);
-    }
-
-    setInterval(switchMessage, 3000);
-    console.log('Animation script loaded successfully');
-});
+updateMessage();
+setInterval(updateMessage, 3000);
